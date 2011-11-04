@@ -1,0 +1,218 @@
+\documentclass[a4paper]{amsart}
+
+
+\usepackage[lutzsyntax,noxy]{virginialake}
+\usepackage{amsmath}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{maintheorem}[theorem]{Main Theorem}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{convention}[theorem]{Convention}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{discussion}[theorem]{Discussion}
+
+\newcommand{\fff}{\mathsf f}
+\newcommand{\ttt}{\mathsf t}
+
+\newcommand{\ai  }{\mathsf{ai}}
+\newcommand{\aw  }{\mathsf{aw}}
+\newcommand{\ac  }{\mathsf{ac}}
+\newcommand{\aid }{{\ai{\downarrow}}}
+\newcommand{\awd }{{\aw{\downarrow}}}
+\newcommand{\acd }{{\ac{\downarrow}}}
+\newcommand{\aiu }{{\ai{\uparrow}}}
+\newcommand{\awu }{{\aw{\uparrow}}}
+\newcommand{\acu }{{\ac{\uparrow}}}
+\newcommand{\swi }{\mathsf{s}}
+\newcommand{\med }{\mathsf{m}}
+\newcommand{\smix }{\mathsf{sm}}
+\newcommand{\mix }{\mathsf{mix}}
+
+\newcommand  {\gw  }{\mathsf w}
+\newcommand  {\gwd }{{\gw{\downarrow}}}
+\newcommand  {\gwu }{{\gw{\uparrow}}}
+\newcommand  {\gc  }{\mathsf c}
+\newcommand  {\gcdown }{{\gc{\downarrow}}}
+\newcommand  {\gcu }{{\gc{\uparrow}}}
+\newcommand  {\gi  }{\mathsf i}
+\newcommand  {\giu }{{\gi{\uparrow}}}
+\newcommand  {\gid }{{\gi{\downarrow}}}
+
+\newcommand{\SKS}{\mathsf{SKS}}
+\newcommand{\KS}{\mathsf{KS}}
+\newcommand{\SKSg}{\mathsf{SKSg}}
+\newcommand{\KSg}{\mathsf{KSg}}
+
+\begin{document}
+
+\title{Atomic Flows do not Form a Proof System}
+\author{Anupam Das}
+\date{\today}
+
+\begin{abstract}
+We prove that, given certain cryptographic assumptions, atomic flows do not form a proof system when working with units.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+
+\section{Deep Inference and Atomic Flows}
+
+\section{Admissibility of Non-Trivial Weakenings}
+We show that, when an atom and its dual appear in a tautology, each proof of that tautology can be polynomially transformed into one where each occurrence of the atom and its dual are introduced by an identity step.
+
+\begin{definition}[Trivial Weakenings]
+If a tautology $\xi\{a^\epsilon\}$ has no occurrence of $\bar{a}$, and $\Phi$ is a proof of $\xi\{a^\epsilon\}$, we say that $a^\epsilon$ is a \emph{trivial weakening} in $\Phi$.
+\end{definition}
+
+\subsection{Supermix in Linear Deep Inference Systems}
+
+\begin{definition}[Supermix]
+We define the supermix rule below:
+\[
+\vlinf{\smix}{}{\vls[A.\bigwedge_{i}^n B_i ]}{\vls(A.\bigvee_{i}^n B_i )}
+\]
+For the special case when $n=1$, it coincides with the usual mix rule. Supermix is sound, and trivially derivable for $\{\gwd, \gwu\}$.
+\end{definition}
+
+\begin{proposition}\label{mix}
+There is a derivation from $\fff$ to $\ttt$ for $\{\med\}$.
+\end{proposition}
+\begin{proof}
+\[
+\vlderivation{
+\vlin{=}{}{\ttt}{
+\vlin{\med}{}{\vls(\vlinf{=}{}{\ttt}{\vls[\fff.\ttt]}.\vlinf{=}{}{\ttt}{\vls[\fff.\ttt]})}{
+\vlin{=}{}{\vls[\vlinf{=}{}{\vls(\fff.\ttt)}{\fff}.\vlinf{=}{}{\vls(\fff.\ttt)}{\fff}]}{\vlhy{\fff}}
+}
+}
+}
+\]
+\end{proof}
+
+\begin{lemma}\label{Triv}
+There is a derivation from $\bigvee_{i}^n B_i$ to $\ttt\vlor\bigwedge_{i}^n B_i$ for $\{\swi,\med\}$.
+\end{lemma}
+\begin{proof}
+We proceed by induction on $n$.
+
+\emph{Base Case}: By Prop.\ \ref{mix} we have $\vls[\vliqf{\med}{}{\ttt}{\fff}.B]$.
+
+\emph{Inductive Step}: Suppose there are such derivations $\Phi_r$ for $r<n$. Define:
+\[
+\Phi_n \quad\equiv \quad
+\vlderivation{
+\vliq{\swi}{}{\vls[\vlinf{=}{}{\ttt}{\vls[\ttt.\ttt.\ttt]}.(B_n .\bigwedge_i B_i )]}{
+\vlin{\med}{}{\vls([\ttt.B_n ].[\ttt.\ttt.\bigwedge_i B_i ])}{\vlhy{\vls[\vlinf{=}{}{\ttt\vlan B_n }{B_n }.\vlinf{=}{}{\vls(\ttt.[\ttt.\bigwedge_i B_i ])}{\vlder{\Phi_{n-1}}{\{\swi,\med\}}{\ttt\vlor\bigwedge_i B_i }{\bigvee_i B_i }}]}}
+}
+}
+\]
+\end{proof}
+
+
+\begin{theorem}
+Supermix is derivable for $\{\swi,\med\}$.
+\end{theorem}
+
+\begin{proof}
+Let $\Phi_n$ be the derivations constructed in Lemma \ref{Triv}.
+\[
+\vlderivation{
+\vlin{\swi}{}{\vls[\vlinf{=}{}{A}{A\vlan\ttt}.\bigwedge_{i}^n B_i ]}{\vlhy{\vls(A. \vlder{\Phi_n }{\{\swi,\med\}}{\ttt\vlor\bigwedge_{i}^n B_i }{\bigvee_{i}^n B_i })}}
+}
+\]
+\end{proof}
+
+\begin{remark}
+All derivations in this section have used only the logical rules, and so create no new vertices in an atomic flow. Their flows are just edges in parallel.
+\end{remark}
+
+\subsection{Converting Non-Trivial Weakenings to Identities}
+
+\begin{proposition}
+Every $\KS$-proof can be polynomially transformed into a unit-free proof with shape $(\gwd,\aid,\{\swi,\med\},\acd)$.
+\end{proposition}
+
+\begin{lemma}[Atomic Weakening]\label{AtWk}
+In a unit-free system, weakening can be made atomic with only quadratic increase in proof size.
+\end{lemma}
+
+\begin{theorem}
+There is a proof in $\KS\setminus\{\awd\}$ of each expression $\bigwedge_i [\ttt \vlor A_i ]$ such that no atom occurs trivially.
+\end{theorem}
+
+\begin{proof}
+By Lemma \ref{AtWk} we can assume that each $A_i$ is a disjunction of atoms. We first undergo a process of `balancing' the formula; by this we mean we applying atomic contractions until there are equally many positive and negative occurrences of each atom. Suppose $\vls(A.[B.a].[C.\bar{a}])$ is a formula in this form and consider the following derivation in $\KS\setminus\{\awd\}$:
+\[
+\vls(A.
+\vlderivation{
+\vlin{\med}{}{\vls([B.a].[C.\bar{a}])}{
+\vlin{\smix}{}{\vls[(B.C).(a.\bar{a})]}{
+\vlin{=}{}{\vls(B.C.\vlinf{\aid}{}{\vls[a.\bar{a}]}{\ttt})}{\vlhy{B\vlan C}}
+}
+}
+}
+)
+\]
+
+Observe that the premiss is $A\vlan B\vlan C$ which is also in this form but has strictly fewer atom occurrences. Therefore we can just repeat the above procedure, chaining the derivations together to obtain a proof.
+\end{proof}
+
+\section{Identity Normal Form of a Proof}
+In this section we describe how to polynomially transform a $\KS$-proof into one whose flow is in some way easy to generate, as we will see in the next section.
+
+The following trick appears in Stra\ss burger CITE in some variation.
+
+\begin{definition}[Balancing Trick]
+
+\end{definition}
+
+\section{Main Result}
+
+\subsection{Automatisability and Feasible Interpolation}
+
+\begin{definition}[Feasible Interpolation]
+
+\end{definition}
+
+\begin{definition}[Automatisability]
+
+\end{definition}
+
+\begin{theorem}[Impaglazzio]
+If a system is automatisable then it admits feasible interpolation.
+\end{theorem}
+
+\begin{theorem}[Bonet et al.]
+If integer factoring is hard for $P/poly$ then $LK$ does not admit feasible interpolation.
+\end{theorem}
+
+\begin{observation}[Jerabek]
+$\KS$ admits feasible interpolation just if $LK$ does.
+\end{observation}
+
+\begin{corollary}
+If integer factoring is hard for $P/poly$ then $\KS$ does not admit feasible interpolation, and hence is not automatisable.
+\end{corollary}
+
+\subsection{Automatisability Algorithm From Polynomial-Time Correctness Criterion for Atomic Flows}
+
+\section{Conclusions}
+\subsection{Flow Design}
+\subsection{Unit-Free Deep Inference}
+\subsection{The Linear Fragment of Propositional Logic}
+
+\bibliographystyle{alpha}
+\bibliography{biblio}
+
+\end{document}
